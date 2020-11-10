@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maco_monitor/Dependencies.dart';
-
-import 'home/HomeScreen.dart';
+import 'package:maco_monitor/bloc/bloc.dart';
+import 'package:maco_monitor/presentation/screens/home.dart';
+import 'package:maco_monitor/presentation/screens/navbar.dart';
 
 Dependencies _sharedDependencies;
 Dependencies get dependencies => _sharedDependencies;
@@ -22,11 +24,14 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primaryColor: const Color(0xff1924ca),
       ),
-      home: Scaffold(
-          appBar: AppBar(
-            title: const Text('MacoMonitor'),
-          ),
-          body: HomeScreen()),
+      home: BlocProvider(
+        create: (context) => WebsiteBloc(dependencies.websiteRepository)
+          ..add(WebsiteRefreshed()),
+        child: Scaffold(
+          appBar: Navbar(),
+          body: Home(),
+        ),
+      ),
     );
   }
 }
