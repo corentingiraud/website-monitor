@@ -8,9 +8,11 @@ abstract class WebsiteState extends Equatable {
   List<Object> get props => [];
 }
 
-class WebsiteInitial extends WebsiteState {}
+class WebsiteFailure extends WebsiteState {
+  final bool wrongPassword;
 
-class WebsiteFailure extends WebsiteState {}
+  WebsiteFailure({this.wrongPassword = false});
+}
 
 class WebsiteLoading extends WebsiteState {}
 
@@ -20,5 +22,5 @@ class WebsiteSuccess extends WebsiteState {
   @override
   List<Object> get props => [websites];
 
-  const WebsiteSuccess({this.websites});
+  const WebsiteSuccess({this.websites = const []});
 }

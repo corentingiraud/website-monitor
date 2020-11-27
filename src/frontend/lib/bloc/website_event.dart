@@ -5,4 +5,7 @@ abstract class WebsiteEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class WebsiteRefreshed extends WebsiteEvent {}
+class WebsiteRefreshed extends WebsiteEvent {
+  final String password;
+  WebsiteRefreshed(this.password);
+}

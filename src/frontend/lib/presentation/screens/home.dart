@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maco_monitor/bloc/bloc.dart';
 import 'package:maco_monitor/domain/entity/Website.dart';
+import 'package:maco_monitor/presentation/screens/websites.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -10,69 +11,70 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  MainBloc _mainBloc;
+  final _passwordController = TextEditingController();
+  bool _isPasswordFormValid = false;
+
   @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<WebsiteBloc, WebsiteState>(
-      builder: (context, state) {
-        if (state is WebsiteInitial) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-        if (state is WebsiteFailure) {
-          return Center(
-            child: Text('Failed to fetch Websites'),
-          );
-        }
-        if (state is WebsiteLoading) {
-          return Center(
-            child: Text('Loading ...'),
-          );
-        }
-        if (state is WebsiteSuccess) {
-          if (state.websites.isEmpty) {
-            return Center(
-              child: Text('No Websites'),
-            );
-          }
-          return ListView(
-            children: List.generate(state.websites.length, (index) {
-              final website = state.websites[index];
-              return _buildListItem(website);
-            }),
-          );
-        }
-        return null;
-      },
-    );
+  void initState() {
+    super.initState();
+    _isPasswordFormValid = false;
+    _mainBloc = BlocProvider.of<MainBloc>(context);
+
+    _passwordController.addListener(() {
+      setState(() {
+        _isPasswordFormValid = _passwordController.text != '' ? true : false;
+      });
+    });
   }
 
-  Widget _buildListItem(Website website) {
-    return ListTile(
-      leading: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Icon(Icons.web),
-        ],
-      ),
-      title: Text(website.name),
-      subtitle: Text(website.url),
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Row(
         children: [
-          website.isUp
-              ? Icon(Icons.check, color: Colors.green)
-              : Icon(Icons.link_off, color: Colors.red),
-          PopupMenuButton<String>(
-            onSelected: null,
-            itemBuilder: (BuildContext context) {
-              return {'Logout', 'Settings'}.map((String choice) {
-                return PopupMenuItem<String>(
-                  value: choice,
-                  child: Text(choice),
-                );
-              }).toList();
-            },
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  constraints: BoxConstraints(maxWidth: 250),
+                  child: TextField(
+                    enableSuggestions: false,
+                    autocorrect: false,
+                    obscureText: true,
+                    decoration: InputDecoration(labelText: 'Mot de passe'),
+                    controller: _passwordController,
+                  ),
+                ),
+                SizedBox(
+                  height: 50,
+                ),
+                OutlineButton(
+                  disabledBorderColor: Colors.grey,
+                  disabledTextColor: Colors.grey,
+                  borderSide: BorderSide(color: Theme.of(context).accentColor),
+                  highlightedBorderColor: Theme.of(context).accentColor,
+                  textColor: Theme.of(context).accentColor,
+                  child: Text('OK'),
+                  onPressed: _isPasswordFormValid
+                      ? () {
+                          _mainBloc.add(
+                              MainSubmitPassword(_passwordController.text));
+                          Navigator.pushReplacementNamed(context, '/websites');
+                        }
+                      : null,
+                )
+              ],
+            ),
           ),
         ],
       ),
