@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "644132306540",
+    "firebase_url": "https://able-stock-267514.firebaseio.com",
+    "project_id": "able-stock-267514",
+    "storage_bucket": "able-stock-267514.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:644132306540:android:ce94c257f375e018e8a249",
+        "android_client_info": {
+          "package_name": "com.macomaco.monitor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "644132306540-a3ei7f5q1amdks5aimj32hbjka821tbr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.macomaco.monitor",
+            "certificate_hash": "c6470d7a3dabe76d708b40e53fe9b65914f0f9ea"
+          }
+        },
+        {
+          "client_id": "644132306540-3tv1teidngvrakep8co8b7ti2lv6hmnd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5E3NYCFD51W5GV0LG75KWk-BCwjSdTRM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "644132306540-3tv1teidngvrakep8co8b7ti2lv6hmnd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

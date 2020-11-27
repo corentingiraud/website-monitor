@@ -1,4 +1,4 @@
-package com.example.maco_monitor
+package com.macomaco.monitor
 
 import io.flutter.embedding.android.FlutterActivity
 

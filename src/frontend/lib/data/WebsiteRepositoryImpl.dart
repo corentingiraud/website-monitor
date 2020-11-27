@@ -9,8 +9,14 @@ class WebsiteRepositoryImpl implements WebsiteRepository {
 
   @override
   Future<List<Website>> getWebsites(String password) async {
+    const bool isProduction = bool.fromEnvironment('dart.vm.product');
+
+    const String apiUrl = isProduction
+        ? 'https://us-central1-able-stock-267514.cloudfunctions.net/checkWebsites'
+        : 'http://192.168.1.35:5001/able-stock-267514/us-central1/checkWebsites';
+
     final response = await http.get(
-      'http://192.168.1.35:5001/able-stock-267514/us-central1/checkWebsites',
+      apiUrl,
       headers: {'Authorization': 'Bearer $password'},
     );
 

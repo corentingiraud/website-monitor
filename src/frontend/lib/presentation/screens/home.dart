@@ -1,9 +1,13 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maco_monitor/bloc/bloc.dart';
-import 'package:maco_monitor/domain/entity/Website.dart';
-import 'package:maco_monitor/presentation/screens/websites.dart';
+
+Future<void> _firebaseMessagingBackgroundHandler(message) async {
+  await Firebase.initializeApp();
+}
 
 class Home extends StatefulWidget {
   @override
@@ -14,6 +18,8 @@ class _HomeState extends State<Home> {
   MainBloc _mainBloc;
   final _passwordController = TextEditingController();
   bool _isPasswordFormValid = false;
+
+  final FirebaseMessaging _fcm = FirebaseMessaging();
 
   @override
   void initState() {
@@ -26,6 +32,13 @@ class _HomeState extends State<Home> {
         _isPasswordFormValid = _passwordController.text != '' ? true : false;
       });
     });
+
+    _fcm.configure(
+      onMessage: (Map<String, dynamic> message) async {},
+      onBackgroundMessage: _firebaseMessagingBackgroundHandler,
+      onLaunch: (Map<String, dynamic> message) async {},
+      onResume: (Map<String, dynamic> message) async {},
+    );
   }
 
   @override
